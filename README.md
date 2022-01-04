@@ -1,0 +1,1 @@
+A small application that allows user interact with movies to show information, trailers, images
