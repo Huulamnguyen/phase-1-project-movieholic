@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Bootstrap -->
     <link 
         rel="stylesheet" 
         href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
@@ -20,6 +21,49 @@
         <h1>Movieholic</h1>
     </div>
 
+    <div class="container mb-3">
+        <form class="row " id ="new-movie">
+            <div class="col form-floating">
+                <input class="form-control" id="movieInput" placeholder = "Insert movie title">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+    <div id="movies-list-api" class="row">
+        <!-- Matching movies from API -->
+    </div>
+
+    <!-- Movie API Modal when the movie image is clicked -->
+    <div class="modal fade" id="movie-api-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row" id="movie-api">
+                        <div class="col text-center" id="movie-api-banner">
+                        </div>
+                        <div class="col" id="movie-api-info">
+                            <h3 id="movie-api-fullTitle"></h3>
+                            <ul>
+                                <li id="movie-api-year"></li>
+                                <li id="movie-api-runtime"></li>
+                                <li id="movie-api-directors"></li>
+                                <li id="movie-api-stars"></li>
+                                <li id="movie-api-imdb-rating"></li>
+                                <li id="movie-api-content-rating"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="add-movie-btn" type="button" class="btn btn-success">Add</button>
+                    <button id="close-modal-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Movie List -->
     <div id="movies-list" class="row">
         <!-- List movie here -->
@@ -31,8 +75,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row" id="movie">
-                    <div class="col text-center" id="movie-trailer">
-                        <iframe frameborder="0" allowfullscreen width="560" height="315" id="movie-trailer-link" src=""></iframe>
+                    <div class="col text-center" id="movie-banner">
+                        <!-- <iframe frameborder="0" allowfullscreen width="560" height="315" id="movie-trailer-link" src=""></iframe> -->
                     </div>
                     <div class="col" id="movie-info">
                         <h3 id="movie-fullTitle"></h3>
@@ -60,13 +104,19 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button id="delete-movie-btn" type="button" class="btn btn-danger">Delete</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+            crossorigin="anonymous"></script>
+    <script type='text/javascript' src='./src/config.js'></script>
     <script src="./src/app.js"></script>
+
+    
 </body>
 </html>
