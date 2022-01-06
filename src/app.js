@@ -3,11 +3,12 @@ const BASE_URL = "http://localhost:3000"
 function init(){
     // ** Get all movies from the database movies_db **
     renderAllMovies();
+
+    renderMoviesAPI();
 }
 document.addEventListener('DOMContentLoaded', init)
 
 // ** Comment **
-
 document.getElementById("new-comment").addEventListener("submit", e => {
     e.preventDefault();
     console.log(e.target.dataset.movieId)
@@ -88,15 +89,21 @@ function renderMovieImage(movie){
                                     class="card-img-top" alt="${movie.fullTitle}">
                             </div>
                             `
-    document.getElementById("movies-list").appendChild(movieCard)
+    document.getElementById("movies-list").append(movieCard)
     
     // ** Show movie modal when movie image was clicked **//
     movieCard.addEventListener("click", showMovie)
     function showMovie() {
 
-        //** Show trailer **
-        document.getElementById("movie-trailer-link").src=movie.trailerLinkEmbed
+        const movieBanner = document.getElementById("movie-banner")
+        if(movie.trailerLinkEmbed){
+            movieBanner.innerHTML = `<iframe frameborder="0" allowfullscreen width="560" height="315" id="movie-api-trailer-link" src="${movie.trailerLinkEmbed}"></iframe>`
+        } else {
+            movieBanner.innerHTML = `<img src="${movie.image}" class="card-img-top" alt="${movie.title}">`
+        }
+
         //** Show movie information **
+        document.getElementById("movie-fullTitle").textContent = movie.fullTitle
         document.getElementById("movie-directors").textContent = `Directors: ${movie.directors}`
         document.getElementById("movie-stars").textContent = `Stars: ${movie.stars}`
         document.getElementById("movie-year").textContent = `Year: ${movie.year}`
@@ -107,5 +114,106 @@ function renderMovieImage(movie){
 
         // ** Get Comments and display ** 
         getComments(movie).then(renderComments)
+
+        // ** Delete movie **
+        document.getElementById("delete-movie-btn").addEventListener("click", () => {
+            deleteMovie(movie.id)
+        })
     }
+}
+
+function deleteMovie(movieId) {
+    console.log(movieId)
+    return fetch(`${BASE_URL}/movies/${movieId}`, {
+        method: "DELETE"
+    })
+}
+
+// ** Movies from API **
+const API_KEY = config.MY_API_KEY
+const BASE_URL_API = "https://imdb-api.com/en/API"
+
+function renderMoviesAPI(){
+    document.getElementById("new-movie").addEventListener("submit", (e) => {
+        e.preventDefault()
+        const expression = e.target.movieInput.value
+        const matchingMovies = fetch(`${BASE_URL_API}/SearchMovie/${API_KEY}/${expression}`)
+            .then(res => res.json())
+            .then(matchingObject => matchingObject.results.forEach(renderMovieAPIImage))
+
+        e.target.reset()
+    })
+}
+
+function renderMovieAPIImage(movieAPI){
+    const movieAPICard = document.createElement("div")
+    movieAPICard.className = "col"
+    movieAPICard.innerHTML = `
+                            <div class="card">
+                                <img 
+                                    type="button" data-bs-toggle="modal" 
+                                    data-bs-target="#movie-api-modal" 
+                                    src="${movieAPI.image}" 
+                                    class="card-img-top" alt="${movieAPI.title}">
+                            </div>
+                            `
+    document.getElementById("movies-list-api").append(movieAPICard)
+    movieAPICard.addEventListener("click", renderMovieAPI)
+    function renderMovieAPI() {
+        console.log(movieAPI.id)
+        const movieAPIInfo = fetch(`${BASE_URL_API}/Title/${API_KEY}/${movieAPI.id}`)
+        .then(res => res.json())
+        .then(movieAPIObject => showMovieAPIInfo(movieAPIObject))
+    }
+}
+
+function createMovie(movieData) {
+    console.log("clicked")
+    return fetch(`${BASE_URL}/movies`,{
+        method: "POST",
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify(movieData)
+    })
+    .then(response => response.json())
+}
+
+function showMovieAPIInfo(movieAPIObject) {
+    //** Show trailer or movie image (banner) **
+    // console.log(movieAPIObject)
+    
+    const movieAPIBanner = document.getElementById("movie-api-banner")
+
+    if (movieAPIObject.trailer) {
+        movieAPIBanner.innerHTML = `<iframe frameborder="0" allowfullscreen width="560" height="315" id="movie-api-trailer-link" src="${movieAPIObject.trailer}"></iframe>`
+    } else {
+        movieAPIBanner.innerHTML = `<img src="${movieAPIObject.image}" class="card-img-top" alt="${movieAPIObject.title}">`
+    }
+    // console.log(movieAPIBanner)
+
+    //** Show movie information **
+    document.getElementById("movie-api-fullTitle").textContent = movieAPIObject.fullTitle
+    document.getElementById("movie-api-directors").textContent = `Directors: ${movieAPIObject.directors}`
+    document.getElementById("movie-api-stars").textContent = `Stars: ${movieAPIObject.stars}`
+    document.getElementById("movie-api-year").textContent = `Year: ${movieAPIObject.year}`
+    document.getElementById("movie-api-runtime").textContent = `Runtime: ${movieAPIObject.runtimeStr}`
+    document.getElementById("movie-api-imdb-rating").textContent = `ImDB Rating: ${movieAPIObject.imDbRating}`
+    document.getElementById("movie-api-content-rating").textContent = `Content Rating: ${movieAPIObject.contentRating}`
+
+    document.getElementById("add-movie-btn").addEventListener("click", ()=> {
+        console.log(movieAPIObject)
+        const movieData = {
+            idAPI:movieAPIObject.id,
+            fullTitle:movieAPIObject.fullTitle,
+            year:movieAPIObject.year,
+            runtimeStr:movieAPIObject.runtimeStr,
+            image:movieAPIObject.image,
+            directors:movieAPIObject.directors,
+            stars:movieAPIObject.stars,
+            trailerLinkEmbed:movieAPIObject.trailer,
+            imDbRating:movieAPIObject.imDbRating,
+            contentRating:movieAPIObject.contentRating
+        }
+        createMovie(movieData)
+        .then((savedMovie) => {renderMovieImage(savedMovie)});
+    })
 }
