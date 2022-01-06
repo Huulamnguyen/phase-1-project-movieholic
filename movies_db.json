@@ -8,19 +8,9 @@
             "image":"https://imdb-api.com/images/original/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_Ratio0.6791_AL_.jpg",
             "directors":"Christopher Nolan",
             "stars":  "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page, Ken Watanabe",
-            "trailerLinkEmbed":"https://www.imdb.com/video/imdb/vi4219471385/imdb/embed",
+            "trailerLinkEmbed":"https://www.youtube.com/embed/YoHD9XEInc0",
             "imDbRating":"8.8",
-            "contentRating":"PG-13",
-            "comments": [
-                {
-                    "id":1,
-                    "content":"Good movies"
-                },
-                {
-                    "id":2,
-                    "content":"Enjoying"
-                }
-            ]
+            "contentRating":"PG-13"
         },
         {
             "id":2,
@@ -30,19 +20,9 @@
             "image":"https://imdb-api.com/images/original/MV5BODllNWE0MmEtYjUwZi00ZjY3LThmNmQtZjZlMjI2YTZjYmQ0XkEyXkFqcGdeQXVyNTc1NTQxODI@._V1_Ratio0.6791_AL_.jpg",
             "directors":"Luc Besson",
             "stars":  "Jean Reno, Gary Oldman, Natalie Portman, Danny Aiello",
-            "trailerLinkEmbed":"https://www.imdb.com/video/imdb/vi4219471385/imdb/embed",
+            "trailerLinkEmbed":"https://www.youtube.com/embed/jawVxq1Iyl0",
             "imDbRating":"8.5",
-            "contentRating":"R",
-            "comments": [
-                {
-                    "id":1,
-                    "content":"Very enjoy watching"
-                },
-                {
-                    "id":2,
-                    "content":"I like it"
-                }
-            ]
+            "contentRating":"R"
         },
         {
             "id":3,
@@ -52,19 +32,9 @@
             "image":"https://imdb-api.com/images/original/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_Ratio0.6762_AL_.jpg",
             "directors":"Frank Darabont",
             "stars":  "Tim Robbins, Morgan Freeman, Bob Gunton",
-            "trailerLinkEmbed":null,
+            "trailerLinkEmbed":"https://www.youtube.com/embed/NmzuHjWmXOc",
             "imDbRating":"9.3",
-            "contentRating":"R",
-            "comments": [
-                {
-                    "id":1,
-                    "content":"Good movies"
-                },
-                {
-                    "id":2,
-                    "content":"Enjoying"
-                }
-            ]
+            "contentRating":"R"
         },
         {
             "id":4,
@@ -76,17 +46,7 @@
             "stars":  "Tom Holland, Zendaya, Benedict Cumberbatch",
             "trailerLinkEmbed":"https://www.youtube.com/embed/JfVOs4VSpmA",
             "imDbRating":"8.8",
-            "contentRating":"PG-13",
-            "comments": [
-                {
-                    "id":1,
-                    "content":"Good movies"
-                },
-                {
-                    "id":2,
-                    "content":"Enjoying"
-                }
-            ]
+            "contentRating":"PG-13"
         },
         {
             "id":5,
@@ -98,18 +58,39 @@
             "stars":  "Constance Wu, Henry Golding, Michelle Yeoh",
             "trailerLinkEmbed":"https://www.youtube.com/embed/ZQ-YX-5bAs0",
             "imDbRating":"6.9",
-            "contentRating":"PG-13",
-            "comments": [
-                {
-                    "id":1,
-                    "content":"Good movies"
-                },
-                {
-                    "id":2,
-                    "content":"Romantic"
-                }
-            ]
+            "contentRating":"PG-13"
         }
-
+    ],
+    "comments": [
+        {
+            "comment":"Inception (2010) is a great movie",
+            "movieId": "1",
+            "id": 1
+        },
+        {
+            "comment":"Inception (2010) is a bad movie",
+            "movieId": "1",
+            "id": 2
+        },
+        {
+            "comment":"Léon: The Professional (1994) is a great movie",
+            "movieId": "2",
+            "id": 3
+        },
+        {
+            "comment":"The Shawshank Redemption (1994) is a great movie",
+            "movieId": "3",
+            "id": 4
+        },
+        {
+            "comment":"Spider-Man: No Way Home (2021) is a great movie",
+            "movieId": "4",
+            "id": 5
+        },
+        {
+            "comment":"Crazy Rich Asians (2018) is a great movie",
+            "movieId": "5",
+            "id": 6
+        }
     ]
 }
