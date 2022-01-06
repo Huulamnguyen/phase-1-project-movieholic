@@ -6,14 +6,52 @@ function init(){
 }
 document.addEventListener('DOMContentLoaded', init)
 
+// ** Comment **
+
+document.getElementById("new-comment").addEventListener("submit", e => {
+    e.preventDefault();
+    console.log(e.target.dataset.movieId)
+    console.log(e.target.commentInput.value)
+    const commentData ={
+        movieId: e.target.dataset.movieId,
+        comment: e.target.commentInput.value
+    }
+    createComment(commentData)
+    .then(savedRecord => {
+        renderComment(savedRecord)
+    })
+})
+
+function deleteComment(commentId) {
+    return fetch(`${BASE_URL}/comments/${commentId}`,{
+        method: "DELETE"
+    })
+    .then(res => res.json())
+}
+
+function createComment(commentData){
+    return fetch(`${BASE_URL}/comments`,{
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(commentData)
+    })
+    .then(res => res.json())
+}
+
 function renderComment(record){
     const commentsLi = document.getElementById("comments-list")
     const commentLi = document.createElement("li")
     commentLi.innerHTML = `
         <p>${record.comment} <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button> </p>
     `
-    console.log(record.comment)
+    // console.log(record.comment)
     commentsLi.append(commentLi)
+
+    const deleteBtn = commentLi.querySelector("button")
+    deleteBtn.addEventListener("click", e => {
+        deleteComment(record.id)
+        .then(() => commentLi.remove())
+    })
 }
 
 function renderComments(comments) {
@@ -37,7 +75,7 @@ function renderAllMovies(){
 
 // ** Render each movie image and update to the DOM **
 function renderMovieImage(movie){
-    console.log(movie)
+    // console.log(movie)
 
     const movieCard = document.createElement("div")
     movieCard.className = "col"
@@ -65,6 +103,7 @@ function renderMovieImage(movie){
         document.getElementById("movie-runtime").textContent = `Runtime: ${movie.runtimeStr}`
         document.getElementById("movie-imdb-rating").textContent = `ImDB Rating: ${movie.imDbRating}`
         document.getElementById("movie-content-rating").textContent = `Content Rating: ${movie.contentRating}`
+        document.getElementById("new-comment").dataset.movieId = movie.id
 
         // ** Get Comments and display ** 
         getComments(movie).then(renderComments)
