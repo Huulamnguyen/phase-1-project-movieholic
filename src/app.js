@@ -2,10 +2,12 @@ const BASE_URL = "http://localhost:3000"
 
 function init(){
     // ** Get all movies from the database movies_db **
+    renderMostPopularMovies()
     renderAllMovies();
-
     renderMoviesAPI();
+    ;
 }
+
 document.addEventListener('DOMContentLoaded', init)
 
 // ** Comment **
@@ -42,6 +44,7 @@ function createComment(commentData){
 function renderComment(record){
     const commentsLi = document.getElementById("comments-list")
     const commentLi = document.createElement("li")
+    commentLi.className = "list-unstyled"
     commentLi.innerHTML = `
         <p>${record.comment} <button type="button" class="btn btn-danger btn-sm" ><i class="fas fa-trash-alt"></i></button> </p>
     `
@@ -84,7 +87,8 @@ function renderMovieImage(movie){
                             <div class="card">
                                 <img 
                                     type="button" data-bs-toggle="modal" 
-                                    data-bs-target="#movie-modal" 
+                                    data-bs-target="#movie-modal"
+                                    height="250" 
                                     src="${movie.image}" 
                                     class="card-img-top" alt="${movie.fullTitle}">
                             </div>
@@ -133,6 +137,71 @@ function deleteMovie(movieId) {
 const API_KEY = config.MY_API_KEY
 const BASE_URL_API = "https://imdb-api.com/en/API"
 
+function renderMostPopularMovies(){
+    return fetch(`${BASE_URL_API}/MostPopularMovies/${API_KEY}`)
+    .then(res => res.json())
+    .then(itemsObject => itemsObject.items.slice(0, 10).forEach(renderMostPopularMovie))
+}
+
+function renderMostPopularMovie(movie) {
+    const topMovieAPICard = document.createElement("div")
+    topMovieAPICard.className = "col"
+    topMovieAPICard.innerHTML = `
+                            <div class="card">
+                                <img 
+                                    type="button" data-bs-toggle="modal" 
+                                    data-bs-target="#top-movie-api-modal"
+                                    height="250" 
+                                    src="${movie.image}" 
+                                    class="card-img-top" alt="${movie.title}">
+                            </div>
+                            `
+    document.getElementById("top-movies-list-api").append(topMovieAPICard)
+
+    topMovieAPICard.addEventListener("click", renderTopMovieAPI)
+    function renderTopMovieAPI() {
+        console.log(movie.id)
+        const topMovieAPIInfo = fetch(`${BASE_URL_API}/Title/${API_KEY}/${movie.id}`)
+        .then(res => res.json())
+        .then(topMovieAPIObject => showTopMovieAPIInfo(topMovieAPIObject))
+    }
+}
+
+function showTopMovieAPIInfo(topMovieAPIObject){
+    const topMovieAPIBanner = document.getElementById("top-movie-api-banner")
+    if (topMovieAPIObject.trailer) {
+        topMovieAPIBanner.innerHTML = `<iframe frameborder="0" allowfullscreen width="560" height="315" id="movie-api-trailer-link" src="${topMovieAPIObject.trailer}"></iframe>`
+    } else {
+        topMovieAPIBanner.innerHTML = `<img src="${topMovieAPIObject.image}" class="card-img-top" alt="${topMovieAPIObject.title}">`
+    }
+
+    //** Show movie information **
+    document.getElementById("top-movie-api-fullTitle").textContent = topMovieAPIObject.fullTitle
+    document.getElementById("top-movie-api-directors").textContent = `Directors: ${topMovieAPIObject.directors}`
+    document.getElementById("top-movie-api-stars").textContent = `Stars: ${topMovieAPIObject.stars}`
+    document.getElementById("top-movie-api-year").textContent = `Year: ${topMovieAPIObject.year}`
+    document.getElementById("top-movie-api-runtime").textContent = `Runtime: ${topMovieAPIObject.runtimeStr}`
+    document.getElementById("top-movie-api-imdb-rating").textContent = `ImDB Rating: ${topMovieAPIObject.imDbRating}`
+    document.getElementById("top-movie-api-content-rating").textContent = `Content Rating: ${topMovieAPIObject.contentRating}`
+
+    document.getElementById("add-top-movie-btn").addEventListener("click", ()=> {
+        const topMovieData = {
+            idAPI:topMovieAPIObject.id,
+            fullTitle:topMovieAPIObject.fullTitle,
+            year:topMovieAPIObject.year,
+            runtimeStr:topMovieAPIObject.runtimeStr,
+            image:topMovieAPIObject.image,
+            directors:topMovieAPIObject.directors,
+            stars:topMovieAPIObject.stars,
+            trailerLinkEmbed:topMovieAPIObject.trailer,
+            imDbRating:topMovieAPIObject.imDbRating,
+            contentRating:topMovieAPIObject.contentRating
+        }
+        createMovie(topMovieData)
+        .then((savedMovie) => {renderMovieImage(savedMovie)});
+    })
+}
+
 function renderMoviesAPI(){
     document.getElementById("new-movie").addEventListener("submit", (e) => {
         e.preventDefault()
@@ -147,12 +216,14 @@ function renderMoviesAPI(){
 
 function renderMovieAPIImage(movieAPI){
     const movieAPICard = document.createElement("div")
+    movieAPICard.innerHTML = ""
     movieAPICard.className = "col"
     movieAPICard.innerHTML = `
                             <div class="card">
                                 <img 
                                     type="button" data-bs-toggle="modal" 
-                                    data-bs-target="#movie-api-modal" 
+                                    data-bs-target="#movie-api-modal"
+                                    height="250"
                                     src="${movieAPI.image}" 
                                     class="card-img-top" alt="${movieAPI.title}">
                             </div>

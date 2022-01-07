@@ -27,11 +27,11 @@
                 <input class="form-control" id="movieInput" placeholder = "Insert movie title">
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary">Search Movie</button>
             </div>
         </form>
     </div>
-    <div id="movies-list-api" class="row">
+    <div id="movies-list-api" class="m-3 page-header row">
         <!-- Matching movies from API -->
     </div>
 
@@ -45,7 +45,7 @@
                         </div>
                         <div class="col" id="movie-api-info">
                             <h3 id="movie-api-fullTitle"></h3>
-                            <ul>
+                            <ul class="list-unstyled">
                                 <li id="movie-api-year"></li>
                                 <li id="movie-api-runtime"></li>
                                 <li id="movie-api-directors"></li>
@@ -57,7 +57,40 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="add-movie-btn" type="button" class="btn btn-success">Add</button>
+                    <button id="add-movie-btn" type="button" class="btn btn-success">Favorite</button>
+                    <button id="close-modal-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top 10 popular movies -->
+    <div id="top-movies-list-api" class="m-3 page-header row">
+        <!-- Top 10 popular movies -->
+        <h3>Top 10 popular movies</h3>
+    </div>
+    <div class="modal fade" id="top-movie-api-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row" id="top-movie-api">
+                        <div class="col text-center" id="top-movie-api-banner">
+                        </div>
+                        <div class="col" id="top- movie-api-info">
+                            <h3 id="top-movie-api-fullTitle"></h3>
+                            <ul class="list-unstyled">
+                                <li id="top-movie-api-year"></li>
+                                <li id="top-movie-api-runtime"></li>
+                                <li id="top-movie-api-directors"></li>
+                                <li id="top-movie-api-stars"></li>
+                                <li id="top-movie-api-imdb-rating"></li>
+                                <li id="top-movie-api-content-rating"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="add-top-movie-btn" type="button" class="btn btn-success">Favorite</button>
                     <button id="close-modal-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -65,7 +98,8 @@
     </div>
 
     <!-- Movie List -->
-    <div id="movies-list" class="row">
+    <div id="movies-list" class="m-3 page-header row">
+        <h3>Your Favorite Movies</h3>
         <!-- List movie here -->
     </div> 
   
@@ -80,7 +114,7 @@
                     </div>
                     <div class="col" id="movie-info">
                         <h3 id="movie-fullTitle"></h3>
-                        <ul>
+                        <ul class="list-unstyled">
                             <li id="movie-year"></li>
                             <li id="movie-runtime"></li>
                             <li id="movie-directors"></li>
@@ -117,6 +151,5 @@
     <script type='text/javascript' src='./src/config.js'></script>
     <script src="./src/app.js"></script>
 
-    
 </body>
 </html>
